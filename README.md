@@ -68,3 +68,8 @@ Run the commands in order: download the archives, preprocess the dataset, then
 train. `summarize_images` reports image counts for each split at 256px, 32px,
 and 64px. Training outputs are written to `experiments/superresolution/`, with
 training curves, comparisons, and sample grids saved alongside each experiment.
+
+The download and preprocessing commands are intentionally one-shot. If their
+destination archives or output folders already contain data, they stop and tell
+you to clear those destinations before running again. They do not overwrite or
+resume existing downloads or preprocessing output.
