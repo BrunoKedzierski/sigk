@@ -18,7 +18,7 @@ SIGK/
 │       └── DIV2K/                  # Downloaded DIV2K archives
 ├── experiments/
 │   └── superresolution/            # Training run outputs
-├── reports/
+├── reports/                        # Reports from experiments
 │   └── figures/
 │       └── super_resolution/       # Generated experiment figures
 ├── SIGK/
