@@ -1,0 +1,56 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "SIGK"
+version = "0.0.1"
+description = "A short description of the project."
+authors = [
+  { name = "bkz" },
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License"
+]
+dependencies = [
+    "httpx>=0.28.1",
+    "loguru",
+    "lpips>=0.1.4",
+    "matplotlib>=3.10.9",
+    "mkdocs",
+    "o>=0.0.2b2",
+    "opencv-python>=5.0.0.93",
+    "pillow>=12.3.0",
+    "pip",
+    "python-dotenv",
+    "ruff",
+    "scikit-image>=0.25.2",
+    "torch>=2.14.1",
+    "torchvision>=0.29.1",
+    "tqdm",
+    "typer",
+]
+requires-python = "~=3.10.0"
+
+
+[project.scripts]
+superresolution_train = "SIGK.superresolution_runner:main"
+download_div2k = "SIGK.data_utils.download_div2k:main"
+preprocess_data = "SIGK.data_utils.preprocess_data:main"
+summarize_images = "SIGK.data_utils.summarize_images:main"
+
+
+[tool.ruff]
+line-length = 99
+src = ["SIGK"]
+include = ["pyproject.toml", "SIGK/**/*.py"]
+
+[tool.ruff.lint]
+extend-select = ["I"]  # Add import sorting
+
+[tool.ruff.lint.isort]
+known-first-party = ["SIGK"]
+force-sort-within-sections = true
