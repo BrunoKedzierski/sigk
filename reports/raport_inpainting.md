@@ -107,8 +107,12 @@ wyjście 1x1 + Sigmoid -> RGB [0,1]
 
 Uczenie realizowano z użyciem optymalizatora Adam. Scheduler zmniejszał współczynnik uczenia przy braku odpowiedniej poprawy wyniku walidacyjnego na metryce LPIPS. Biorac pod uwage krzywe uczenia, warto by sprawdzic, czy model nie miał jeszcze w zapasie potencjału pojemnościowego i zdolnosci do uczenia sie.
 
+### 4.2 Funkcja straty
 
-### 4.2. Metryki jakości
+ $$\mathcal{L}=60\,\text{L}1_{hole} + 0,5\,\text{L}1_{valid} + 20\,\text{L}2_{hole} + 0,15\,\text{LPIPS}(comp, GT)$$
+
+ Zdecydowano postawic duzy nacisk na współczynnik przy ubytku  ($60\,\text{L}1_{hole}$) oraz zwiększyc loss percepcyjny na współcznynnik 0,15. W innym przypadku metryki percepcyjne kulały, tak jak sam inpainting. 
+### 4.3. Metryki jakości
 
 
 
@@ -119,7 +123,7 @@ Uczenie realizowano z użyciem optymalizatora Adam. Scheduler zmniejszał wspó�
 
 Metryki  **PSNR**, **L1 (MAE)** obliczano dla na podstawie roznicy w obszarze ubytku, natomiast **LPIPS** oraz **SSIM** przeliczano dla ubytku z dodatkowym buforem 24px. W czasie treningu widoczne są w logach dodatkowo metryki przeliczane dla całych obrazów, jednak z uwagi na brak reprodukcji poza obszarem ubytku uznano, ze moga one generowac szum w wynikach i nie skupiano się na nich.
 
-### 4.3 Historia treningu
+### 4.4 Historia treningu
 ### Maska 32x32
 
 ![Training History 32](./figures_inpainting/training_history_32.png)
@@ -128,6 +132,7 @@ Metryki  **PSNR**, **L1 (MAE)** obliczano dla na podstawie roznicy w obszarze ub
 
 ![Training History 3](./figures_inpainting/training_history_3.png)
 
+Strata walidacyjna spada wraz z treningiem, nie widać overfittingu. Widac równiez, ze train ma wyzsza wartość straty, być moze z powodu random flipa. Scheduler działa zgodnie z oczekiwaniami, obnizajac LR gdy LPIPS przestaje sie poprawiać.
 
 ## 5. Wyniki ilościowe
 ### 5.1 Maska 32 x 32 
