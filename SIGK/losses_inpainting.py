@@ -17,9 +17,9 @@ import lpips
 def combined_inpainting_loss(
     pred, target, mask, lpips_model,
     weight_hole=60.0,      # l1 hole loss weight
-    weight_valid=0.5,      # ZMIANA: tło i tak jest podmieniane na GT przy ewaluacji -> mała waga
-    weight_hole_l2=20.0,   # NOWE: składnik L2/MSE w dziurze = bezpośrednia optymalizacja pod PSNR
-    weight_perc=0.15,      # ZMIANA: z 0.20 na 0.05 (duży perceptual rozmywał dziurę)
+    weight_valid=0.5,      # l1 valid loss weight
+    weight_hole_l2=20.0,   # l2 loss in hole
+    weight_perc=0.15,      # focus on perceptual loss
 ):
     # pixel by pixel loss with reconstruction (pred vs target)
     l1 = F.l1_loss(pred, target, reduction='none')
