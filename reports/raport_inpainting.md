@@ -23,7 +23,7 @@ Moduły python z sufiksem *_inpainting.py* pozwalają na odtworzenie potoku tren
 |---|---:|---:|---:|---:|
 | **OpenCV_Inpaint_32_32** | 24,1154 | 0,9205| 0,1332 | 0,0659|
 | **Unet_32_32** | **25,3789** | **0,9282** | **0,1250** | **0,0558** |
-*`n=400`, `test`, `checkpoint=val_loss`*
+`n=400`, `test`, `checkpoint=val_loss`
 
 ### Maska 3 x 3
 
@@ -31,7 +31,7 @@ Moduły python z sufiksem *_inpainting.py* pozwalają na odtworzenie potoku tren
 |---|---:|---:|---:|---:|
 | **OpenCV_Inpaint_3_3** | 33,114 | 0,9991| 0,0014| 0,0358 |
 | **Unet_3_3** | **34,532** | **0,9994** | **0,0009** | **0,0258** |
-*`n=400`, `test`, `checkpoint=val_loss`*
+`n=400`, `test`, `checkpoint=val_loss`
 
 
 
@@ -61,11 +61,12 @@ Maska "dziury" w czasie treningu, upewniwszy się ze nie wychodzi poza obrys obr
 
 Metodą refencyjną była `cv2.inpaint(.., inpaintRadius=3, flags=cv2.INPAINT_TELEA)`). Metoda referencyjna nie podlega treningowi, słuzy do porównania wyników i jest uruchamiania kazdorazowo dla kazdego obrazu. 
 
-Z uwagi na to, ze wczytywany obraz jest skalowany do przedziału [0,1], a OpenCV wymaga precyzji `uint8`, w trakcie porównania metryk, model obraz modelu bazowego jest składany jak obraz w UNet z uzyciem wzoru:
+Z uwagi na to, ze wczytywany obraz jest skalowany do przedziału [0,1], a OpenCV wymaga precyzji `uint8`, obraz trzeba spowrotem skalować do wymaganej precyzji.
+Z tego powodu równiez, trakcie porównania metryk, model obraz modelu bazowego jest składany jak obraz w UNet z uzyciem wzoru:
 
-$$ \text{cv2\_comp} = \text{gt\_img} \odot (1.0 - \text{mask}) + \text{cv2\_comp} \odot \text{mask} $$
+$$ \text{cv2}_{comp} = \text{gt}_{img} \odot (1.0 - \text{mask}) + \text{cv2}_{comp} \odot \text{mask} $$
 
-Pozwala to lepiej porównać jakoś samego obszaru reprodukowanego. W innych przypadku, metoda OpenCV z powodu konwersji do `obraz oryginalny` -> `float` -> `uint8` -> `float` mogłaby tracić na precyzji.
+Pozwala to lepiej porównać jakość samego obszaru reprodukowanego. W innych przypadku, metoda OpenCV z powodu konwersji do `obraz oryginalny` -> `float` -> `uint8` -> `float` mogłaby tracić na precyzji.
 Na wygenerowanych przykładach nizej natomiast, zapisany jest juz raw output z metody OpenCV.
 
 
@@ -135,7 +136,7 @@ Metryki  **PSNR**, **L1 (MAE)** obliczano dla na podstawie roznicy w obszarze ub
 |---|---:|---:|---:|---:|
 | **OpenCV_Inpaint_32_32** | 24,1154 | 0,9205| 0,1332 | 0,0659|
 | **Unet_32_32** | **25,3789** | **0,9282** | **0,1250** | **0,0558** |
-*`n=400`, `test`, `checkpoint=val_loss`*
+`n=400`, `test`, `checkpoint=val_loss`
 
 
 
@@ -145,7 +146,7 @@ Metryki  **PSNR**, **L1 (MAE)** obliczano dla na podstawie roznicy w obszarze ub
 |---|---:|---:|---:|---:|
 | **OpenCV_Inpaint_3_3** | 33,114 | 0,9991| 0,0014| 0,0358 |
 | **Unet_3_3** | **34,532** | **0,9994** | **0,0009** | **0,0258** |
-*`n=400`, `test`, `checkpoint=val_loss`*
+`n=400`, `test`, `checkpoint=val_loss`
 
 Dla obu masek, model **UNet** osiągnął lepsze wyniki niz model bazowy OpenCV. Róznice numeryczne/metrykowe są jednak nieznaczne.
 
