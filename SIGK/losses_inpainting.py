@@ -1,6 +1,3 @@
-import os
-import random
-import torch
 from torch.utils.data import Dataset,DataLoader
 from PIL import Image
 import torchvision.transforms as T
