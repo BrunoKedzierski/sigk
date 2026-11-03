@@ -72,11 +72,6 @@ uv run superresolution_train
 uv run inpainting_training
 ```
 
-Help
-
-```powershell
-uv run inpainting_training --help
-```
 
 Run the commands in order: download the archives, preprocess the dataset, then
 train. `summarize_images` reports image counts for each split at 256px, 32px,
@@ -87,3 +82,23 @@ The download and preprocessing commands are intentionally one-shot. If their
 destination archives or output folders already contain data, they stop and tell
 you to clear those destinations before running again. They do not overwrite or
 resume existing downloads or preprocessing output.
+
+## Inpainting
+
+Download and preprocess the data first, then:
+
+```powershell
+uv run inpainting_training 
+```
+or 
+
+
+```powershell
+uv run inpainting_training --help
+```
+
+Example run
+```powershell
+uv run inpainting_training -e 10 --holesize 32 -b 16 -w 2
+```
+For 10 *epochs*, 32x32 *mask*, *batch* size 16, and 2 *workers*
