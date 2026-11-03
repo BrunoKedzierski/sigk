@@ -109,7 +109,7 @@ Uczenie realizowano z użyciem optymalizatora Adam. Scheduler zmniejszał wspó�
 
 ### 4.2 Funkcja straty
 
- $$\mathcal{L}=60\,\text{L}1_{hole} + 0,5\,\text{L}1_{valid} + 20\,\text{L}2_{hole} + 0,15\,\text{LPIPS}(comp, GT)$$
+ $$\mathcal{L}=60\text{L}1_{hole} + 0,5\text{L}1_{valid} + 20\text{L}2_{hole} + 0,15\text{LPIPS}(comp, GT)$$
 
  Zdecydowano postawic duzy nacisk na współczynnik przy ubytku  ($60\,\text{L}1_{hole}$) oraz zwiększyc loss percepcyjny na współcznynnik 0,15. W innym przypadku metryki percepcyjne kulały, tak jak sam inpainting. 
 ### 4.3. Metryki jakości
