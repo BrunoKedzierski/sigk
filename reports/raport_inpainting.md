@@ -23,6 +23,7 @@ Moduły python z sufiksem *_inpainting.py* pozwalają na odtworzenie potoku tren
 |---|---:|---:|---:|---:|
 | **OpenCV_Inpaint_32_32** | 24,1154 | 0,9205| 0,1332 | 0,0659|
 | **Unet_32_32** | **25,3789** | **0,9282** | **0,1250** | **0,0558** |
+*`n=400`, `test`, `checkpoint=val_loss`*
 
 ### Maska 3 x 3
 
@@ -30,6 +31,7 @@ Moduły python z sufiksem *_inpainting.py* pozwalają na odtworzenie potoku tren
 |---|---:|---:|---:|---:|
 | **OpenCV_Inpaint_3_3** | 33,114 | 0,9991| 0,0014| 0,0358 |
 | **Unet_3_3** | **34,532** | **0,9994** | **0,0009** | **0,0258** |
+*`n=400`, `test`, `checkpoint=val_loss`*
 
 
 
@@ -57,7 +59,15 @@ Maska "dziury" w czasie treningu, upewniwszy się ze nie wychodzi poza obrys obr
 
 ### 2.3. Metoda referencyjna
 
-Metodą refencyjną była `cv2.inpaint(.., inpaintRadius=3, flags=cv2.INPAINT_TELEA)`). Metoda referencyjna nie podlega treningowi, słuzy do porównania wyników i jest uruchamiania kazdorazowo dla kazdego obrazu
+Metodą refencyjną była `cv2.inpaint(.., inpaintRadius=3, flags=cv2.INPAINT_TELEA)`). Metoda referencyjna nie podlega treningowi, słuzy do porównania wyników i jest uruchamiania kazdorazowo dla kazdego obrazu. 
+
+Z uwagi na to, ze wczytywany obraz jest skalowany do przedziału [0,1], a OpenCV wymaga precyzji `uint8`, w trakcie porównania metryk, model obraz modelu bazowego jest składany jak obraz w UNet z uzyciem wzoru:
+
+$$ \text{cv2\_comp} = \text{gt\_img} \odot (1.0 - \text{mask}) + \text{cv2\_comp} \odot \text{mask} $$
+
+Pozwala to lepiej porównać jakoś samego obszaru reprodukowanego. W innych przypadku, metoda OpenCV z powodu konwersji do `obraz oryginalny` -> `float` -> `uint8` -> `float` mogłaby tracić na precyzji.
+Na wygenerowanych przykładach nizej natomiast, zapisany jest juz raw output z metody OpenCV.
+
 
 ## 3. Architektury sieci neuronowych
 
@@ -106,7 +116,7 @@ Uczenie realizowano z użyciem optymalizatora Adam. Scheduler zmniejszał wspó�
 - **LPIPS** (*Learned Perceptual Image Patch Similarity*) - odległość percepcyjna wyznaczana na podstawie reprezentacji sieci `vgg`; wejścia przekształcono do zakresu [-1, 1]. **Mniej = lepiej**.
 - **L1 (MAE)** - średni błąd bezwzględny względem obrazu referencyjnego. **Mniej = lepiej**.
 
-Metryki  **PSNR**, **L1 (MAE)** obliczano dla na podstawie roznicy w obszarze ubytku, natomiast **LPIPS** oraz **SSIM** przeliczano dla ubytku z dodatkowym buforem 24px. W czasie treningu widoczne są metryki przeliczane dla całych obrazów, jednak z uwagi na brak reprodukcji poza obszarem ubytku uznano, ze moga one generowac szum w wynikach.
+Metryki  **PSNR**, **L1 (MAE)** obliczano dla na podstawie roznicy w obszarze ubytku, natomiast **LPIPS** oraz **SSIM** przeliczano dla ubytku z dodatkowym buforem 24px. W czasie treningu widoczne są w logach dodatkowo metryki przeliczane dla całych obrazów, jednak z uwagi na brak reprodukcji poza obszarem ubytku uznano, ze moga one generowac szum w wynikach i nie skupiano się na nich.
 
 ### 4.3 Historia treningu
 ### Maska 32x32
@@ -125,6 +135,9 @@ Metryki  **PSNR**, **L1 (MAE)** obliczano dla na podstawie roznicy w obszarze ub
 |---|---:|---:|---:|---:|
 | **OpenCV_Inpaint_32_32** | 24,1154 | 0,9205| 0,1332 | 0,0659|
 | **Unet_32_32** | **25,3789** | **0,9282** | **0,1250** | **0,0558** |
+*`n=400`, `test`, `checkpoint=val_loss`*
+
+
 
 ### 5.2 Maska 3 x 3
 
@@ -132,7 +145,9 @@ Metryki  **PSNR**, **L1 (MAE)** obliczano dla na podstawie roznicy w obszarze ub
 |---|---:|---:|---:|---:|
 | **OpenCV_Inpaint_3_3** | 33,114 | 0,9991| 0,0014| 0,0358 |
 | **Unet_3_3** | **34,532** | **0,9994** | **0,0009** | **0,0258** |
+*`n=400`, `test`, `checkpoint=val_loss`*
 
+Dla obu masek, model **UNet** osiągnął lepsze wyniki niz model bazowy OpenCV. Róznice numeryczne/metrykowe są jednak nieznaczne.
 
 ### 5.3 UNet vs OpenCV
 
@@ -164,4 +179,15 @@ Model **Unet** podobnie generuje obrazu, jednak widac tam swego rodzaju "linie" 
 ![Examples 3](./figures_inpainting/examples_3.png)
 *Rys. Obrazy wynikowe dla maski 3x3*
 
-Dla gołego oka, róznice pomiędzy oboma metodami na tak maym ubytku są de facto pomijalne. 
+Dla gołego oka, róznice pomiędzy oboma metodami na tak małym ubytku są de facto pomijalne. 
+
+## 7. Dyskusja/wnioski
+
+Niniejsze zadanie było bardzo ciekawe, ale w tym samym czasie nauczyło pokory. Mozna odniesc wrazenie, ze w tym konkretnym zadaniu uzycie/trenowanie modelu UNet nie ma sensu z uwagi na:
+- długi czas trenowania
+- wymóg "mocniejszego" sprzętu do treningu/inferencji
+- wagę modelu
+- znikome rónice w metrykach
+- znikome roznice w rzeczywistych reprodukcjach, poza ogólną róznica "stylu" (faktura, linie, usrednianie)
+
+Byc moze warto by sprobowac wytrenowac mniejszy model. Z drugiej strony, prezentowane modele są kolejną iteracją modeli UNet. Dopiero te przedstawione pozwoliły osiągnąć lepsze metryki niz OpenCV. Co tez nie jest do konca prawdziwe, bo rzeczywisty skok jakosciowy w moim rozumieniu przyszedł dopiero po uzyciu danych treningowych wyprodukowanych w ramach augmentacji offline (patrz preprocessing danych). To pokazuje kolejną rzecz, jak bardzo poza mocą obliczeniową, wazne sa odpowiednie (ilościowo i jakościwoo) dane trenigowe.
