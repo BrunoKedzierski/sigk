@@ -69,7 +69,7 @@ uv run download_div2k
 uv run preprocess_data
 uv run summarize_images
 uv run superresolution_train
-uv run inpainting_training
+uv run inpainting_train
 ```
 
 
@@ -88,13 +88,13 @@ resume existing downloads or preprocessing output.
 Download and preprocess the data first, then:
 
 ```powershell
-uv run inpainting_training 
+uv run inpainting_train
 ```
 or 
 
 
 ```powershell
-uv run inpainting_training --help
+uv run inpainting_train --help
 ```
 
 Example run
