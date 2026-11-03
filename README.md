@@ -99,6 +99,6 @@ uv run inpainting_train --help
 
 Example run
 ```powershell
-uv run inpainting_training -e 10 --holesize 32 -b 16 -w 2
+uv run inpainting_train -e 10 --holesize 32 -b 16 -w 2
 ```
 For 10 *epochs*, 32x32 *mask*, *batch* size 16, and 2 *workers*
