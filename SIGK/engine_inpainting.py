@@ -116,7 +116,7 @@ def main(epochs: int = 75, hole_size: int = 3, batch_size: int = 16, num_workers
     # metrics
     psnr = PeakSignalNoiseRatio(data_range=1.0).to(device)
     ssim = StructuralSimilarityIndexMeasure(data_range=1.0).to(device)
-    lpips_vgg = lpips.LPIPS(net="alex").to(device)
+    lpips_vgg = lpips.LPIPS(net="vgg").to(device)
 
 
     # GradScaler is stable on CUDA; MPS/CPU use autocast (MPS) or plain fp32 (CPU)
