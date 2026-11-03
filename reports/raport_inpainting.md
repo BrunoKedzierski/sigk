@@ -166,6 +166,7 @@ Dla obu masek, model **UNet** osiągnął lepsze wyniki niz model bazowy OpenCV.
 | SSIM wyższe | 328/400 (82,0%) | 278/400 (69,5%) |
 | LPIPS niższe | 272/400 (68,0%) | 279/400 (69,8%) |
 
+Mimo bardziej zaawansowanego modelu, model OpenCV w zaleznosci od metryki jest lepszy w 20-30% przypadków. Rodzi to pytania o "biznesowy" sens treningu i stosowania tak duzego modelu.
 ### 5.4 Czas
 
 | | Czas [min] |
@@ -185,11 +186,11 @@ Model **Unet** podobnie generuje obrazu, jednak widac tam swego rodzaju "linie" 
 ![Examples 3](./figures_inpainting/examples_3.png)
 *Rys. Obrazy wynikowe dla maski 3x3*
 
-Dla gołego oka, róznice pomiędzy oboma metodami na tak małym ubytku są de facto pomijalne. 
+Dla gołego oka, róznice pomiędzy oboma metodami na tak małym ubytku są de facto pomijalne.
 
 ## 7. Dyskusja/wnioski
 
-Niniejsze zadanie było bardzo ciekawe, ale w tym samym czasie nauczyło pokory. Mozna odniesc wrazenie, ze w tym konkretnym zadaniu uzycie/trenowanie modelu UNet nie ma sensu z uwagi na:
+Niniejsze zadanie było bardzo ciekawe, ale w tym samym czasie nauczyło pokory. Mozna odniesc wrazenie, ze w tym konkretnym zadaniu (przynajmniej na masce 3x3) uzycie/trenowanie modelu UNet nie ma sensu z uwagi na:
 - długi czas trenowania
 - wymóg "mocniejszego" sprzętu do treningu/inferencji
 - wagę modelu
