@@ -26,14 +26,21 @@ SIGK/
 │   │   ├── download_div2k.py       # Download DIV2K train and validation archives
 │   │   ├── preprocess_data.py      # Extract, crop, resize, and create test split
 │   │   └── summarize_images.py     # Count images by split and resolution
+│   ├── dataset_inpainting.py       # dataset definition for inpainting
 │   ├── directories.py              # Project data and output paths
+│   ├── engine_inpainting.py        # Training, validation, and experiment orchestration for inpainting
 │   ├── engine.py                   # Training, validation, and experiment orchestration
+│   ├── figures_inpainting.py       # Plot and comparison figure generation
 │   ├── figures.py                  # Plot and comparison figure generation
+│   ├── losses_inpainting.py        # inpainting loss function 
+│   ├── metrics_inpainting.py       # Image quality metrics
 │   ├── metrics.py                  # Image quality metrics
 │   ├── model_utils.py              # Serialization, data loaders, and helpers
+│   ├── runner_inpainting.py        # runner scrpit for inpainting
 │   ├── superresolution_dataset.py  # PyTorch dataset for paired LR/HR images
-│   ├── superresolution_runner.py  # Dataset, model, and training configuration
+│   ├── superresolution_runner.py   # Dataset, model, and training configuration
 │   └── supperresolution_models.py  # BaseNet, Netv2, and Netv3 architectures
+│   └── unet_inpainting.py          # UNet implementation
 ├── LICENSE
 ├── Makefile
 ├── pyproject.toml                  # Package metadata, dependencies, and commands
@@ -62,6 +69,13 @@ uv run download_div2k
 uv run preprocess_data
 uv run summarize_images
 uv run superresolution_train
+uv run inpainting_training
+```
+
+Help
+
+```powershell
+uv run inpainting_training --help
 ```
 
 Run the commands in order: download the archives, preprocess the dataset, then
