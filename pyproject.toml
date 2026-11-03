@@ -32,6 +32,8 @@ dependencies = [
     "torchvision>=0.29.1",
     "tqdm",
     "typer",
+    "torchmetrics",
+    "scipy==1.14.1",
 ]
 requires-python = "~=3.10.0"
 
@@ -41,6 +43,7 @@ superresolution_train = "SIGK.superresolution_runner:main"
 download_div2k = "SIGK.data_utils.download_div2k:main"
 preprocess_data = "SIGK.data_utils.preprocess_data:main"
 summarize_images = "SIGK.data_utils.summarize_images:main"
+inpainting_train = "SIGK.runner_inpainting:main"
 
 
 [tool.ruff]
