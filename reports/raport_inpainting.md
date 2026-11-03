@@ -132,7 +132,7 @@ Metryki  **PSNR**, **L1 (MAE)** obliczano dla na podstawie roznicy w obszarze ub
 
 ![Training History 3](./figures_inpainting/training_history_3.png)
 
-Strata walidacyjna spada wraz z treningiem, nie widać overfittingu. Widac równiez, ze train ma wyzsza wartość straty, być moze z powodu random flipa. Scheduler działa zgodnie z oczekiwaniami, obnizajac LR gdy LPIPS przestaje sie poprawiać.
+Strata walidacyjna spada wraz z treningiem, nie widać overfittingu. Widac równiez, ze train ma wyzsza wartość straty, być moze z powodu random flipa. Scheduler działa zgodnie z oczekiwaniami, obnizajac LR gdy LPIPS przestaje sie poprawiać. Widać rowniez, ze metryki jak **SSIM** dla maski 3x3 praktycznie od razu dochodzą do maksymalnych wartości. Model moze byc zbytr duzy dla tak małej maski. Te same metryki dla maski 32x32 wciąć zdają się "ruszać" (zmieniać, trenować).
 
 ## 5. Wyniki ilościowe
 ### 5.1 Maska 32 x 32 
