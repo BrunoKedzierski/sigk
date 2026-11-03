@@ -95,7 +95,7 @@ wyjście 1x1 + Sigmoid -> RGB [0,1]
 | Batch size | 16 |
 | Optymalizator | Adam |
 | LR  | **0,0002 (`2e-4`)** |
-| Funkcja straty | $$\mathcal{L}=60\,\text{L}1_{hole} + 0,5\,\text{L}1_{valid} + 20\,\text{L}2_{hole} + 0,15\,\text{LPIPS}(comp, GT)$$|
+| Funkcja straty | $$\mathcal{L}=60\text{L}1_{hole} + 0,5\text{L}1_{valid} + 20\text{L}2_{hole} + 0,15\text{LPIPS}(comp, GT)$$|
 | Walidacja | Co epokę |
 | Scheduler | `ReduceLROnPlateau` względem `val_LPIPS`, `factor=0,5`, `patience=4` |
 | Losowe ziarno | 42 |
