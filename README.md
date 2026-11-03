@@ -69,7 +69,6 @@ uv run download_div2k
 uv run preprocess_data
 uv run summarize_images
 uv run superresolution_train
-uv run inpainting_train
 ```
 
 
