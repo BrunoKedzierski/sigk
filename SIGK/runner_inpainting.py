@@ -13,7 +13,7 @@ def main():
     parser.add_argument(
         "--hole-size",
         type=int,
-        default=3,
+        default=32,
         dest="hole_size",
         help="Square hole size in pixels (default: 3)",
     )
